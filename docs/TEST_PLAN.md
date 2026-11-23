@@ -1,0 +1,25 @@
+# Phase 2 Test Plan & Status
+
+Status legend: **NOT RUN** = written but not executed. Nothing below has been run yet:
+the authoring environment had no network access, so dependencies were not installed and no build/browser test was possible.
+
+| # | Scenario | Type | Status |
+|---|----------|------|--------|
+| 1 | New user signs in with Google | Real OAuth | NOT RUN |
+| 2 | New user selects Primary Student | UI | NOT RUN |
+| 3 | New user selects Secondary Student | UI | NOT RUN |
+| 4 | New user selects Parent | UI | NOT RUN |
+| 5 | Complete profile → row in `profiles`, redirect to dashboard | Real DB | NOT RUN |
+| 6 | Close/reopen app → still signed in, lands on dashboard | Real OAuth | NOT RUN |
+| 7 | Sign in again → no duplicate row (`select count(*) from profiles` stays 1 per user) | Real DB | NOT RUN |
+| 8 | Existing user goes straight to correct dashboard | Real OAuth | NOT RUN |
+| 9 | Incomplete profile (signed in, no row) → `/onboarding/role` from any protected URL | Real OAuth | NOT RUN |
+| 10 | Sign out → session cleared, redirected to `/` | Real OAuth | NOT RUN |
+| 11 | RLS: as user A, `select * from profiles where id = '<B>'` returns 0 rows; update/insert for B is rejected | Real DB (SQL editor w/ two users, or supabase-js) | NOT RUN |
+| 12 | Invalid form data rejected (empty name, no year, bad phone) | UI | NOT RUN |
+| 13 | Callback errors: cancel on Google consent screen; open `/auth/callback` directly; `/auth/callback?error=access_denied` | Real OAuth / UI | NOT RUN |
+| 14 | `npm run build` succeeds | Build | NOT RUN |
+| 15 | EN/BM toggle on every screen; choice persists after reload; validation messages switch language | UI | NOT RUN |
+| 16 | Each category lands on its own dashboard; visiting another category's `/dashboard/*` redirects to own | Real OAuth | NOT RUN |
+| 17 | Edit profile (`/profile/edit`) prefilled, saves, returns to `/profile`; category cannot be changed | Real DB | NOT RUN |
+| 18 | Layout check at 360 / 390 / 430 px: no horizontal scroll, bottom nav never covers last content, hero never overlaps headings | UI | NOT RUN |
