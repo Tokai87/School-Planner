@@ -15,7 +15,7 @@ npx tsc --noEmit         # type-check only
    Never use the `service_role` key in this app.
 
 ## 3. Run the SQL migration
-Dashboard → **SQL Editor** → paste `supabase/migrations/0001_profiles.sql` → **Run**.
+Dashboard → **SQL Editor** → paste `supabase/migrations/0001_profiles.sql` → **Run**, then do the same for `0002_profiles_grants.sql`.
 Confirm in *Table Editor* that `profiles` exists with RLS enabled and 3 policies (select/insert/update own).
 
 ## 4. Google OAuth
