@@ -5,6 +5,16 @@ import { useLang } from "@/hooks/useLang";
 
 export const cssVar = (name: string, value: string) => ({ [name]: value }) as CSSProperties;
 
+/** Character artwork for the dashboard header; falls back to an icon badge when no artwork exists for this user. */
+export function Hero({ src, height, icon: Icon }: { src: string | null; height: string; icon: LucideIcon }) {
+  if (src) return <img className="hero" style={cssVar("--h", height)} src={src} alt="" />;
+  return (
+    <div className="hero hero-fb" aria-hidden="true">
+      <Icon size={76} strokeWidth={1.6} />
+    </div>
+  );
+}
+
 export function TopBar({ left, bell = true }: { left: "menu" | "settings"; bell?: boolean }) {
   const { L } = useLang();
   const Left = left === "menu" ? Menu : Settings;

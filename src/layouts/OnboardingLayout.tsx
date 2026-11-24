@@ -6,7 +6,7 @@ function Frame() {
   const { pathname } = useLocation();
   const onProfile = pathname.endsWith("/profile");
   return (
-    <ObShell step={onProfile ? 2 : 1} backTo={onProfile ? "/onboarding/role" : undefined}>
+    <ObShell brand={!onProfile} step={onProfile ? 2 : 1} backTo={onProfile ? "/onboarding/role" : undefined}>
       <Outlet />
     </ObShell>
   );

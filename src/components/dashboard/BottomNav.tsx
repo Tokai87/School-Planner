@@ -1,5 +1,6 @@
+import { Fragment } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Bell, CalendarDays, CircleUser, ClipboardList, FileText, House, Users, type LucideIcon } from "lucide-react";
+import { Bell, CalendarDays, CircleUser, ClipboardList, FileText, House, Library, Plus, Users, type LucideIcon } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLang } from "@/hooks/useLang";
 import { dashboardPathFor } from "@/lib/roles";
@@ -15,8 +16,15 @@ export function BottomNav() {
   if (!profile) return null;
 
   const home = dashboardPathFor(profile.role);
-  const items: Item[] =
-    profile.role === "parent"
+  const femaleStudent = profile.gender === "female" && profile.role !== "parent";
+  const items: Item[] = femaleStudent
+    ? [
+        { icon: House, en: "Home", ms: "Utama", to: home },
+        { icon: CalendarDays, en: "Timetable", ms: "Jadual" },
+        { icon: Library, en: "Subjects", ms: "Subjek" },
+        { icon: CircleUser, en: "Account", ms: "Akaun", to: "/profile" },
+      ]
+    : profile.role === "parent"
       ? [
           { icon: House, en: "Dashboard", ms: "Utama", to: home },
           { icon: Users, en: "Children", ms: "Anak-anak" },
@@ -33,12 +41,20 @@ export function BottomNav() {
         ];
 
   return (
-    <nav className={`nav${profile.role === "secondary_student" ? " dk" : ""}`} aria-label={L("Main navigation", "Navigasi utama")}>
-      {items.map(({ icon: Icon, en, ms, to }) => {
+    <nav
+      className={femaleStudent ? `nav fnav ${profile.role === "secondary_student" ? "sec" : "pri"}` : `nav${profile.role === "secondary_student" ? " dk" : ""}`}
+      aria-label={L("Main navigation", "Navigasi utama")}
+    >
+      {items.map(({ icon: Icon, en, ms, to }, i) => {
         const active = to !== undefined && pathname === to;
         return (
+          <Fragment key={en}>
+            {femaleStudent && i === 2 && (
+              <button type="button" className="fab" aria-label={L("Add", "Tambah")} aria-disabled="true" title={L("Coming soon", "Akan datang")}>
+                <Plus size={30} aria-hidden="true" />
+              </button>
+            )}
           <button
-            key={en}
             type="button"
             className={active ? "on" : undefined}
             aria-current={active ? "page" : undefined}
@@ -49,6 +65,7 @@ export function BottomNav() {
             <Icon size={22} aria-hidden="true" />
             <span>{L(en, ms)}</span>
           </button>
+          </Fragment>
         );
       })}
     </nav>

@@ -1,4 +1,4 @@
-import type { Profile, Role } from "@/types/database";
+import type { Gender, Profile, Role } from "@/types/database";
 
 export const ROLE_LABEL: Record<Role, string> = {
   primary_student: "Primary Student",
@@ -22,4 +22,9 @@ export function themeClassFor(role: Role | null | undefined): string {
 export function getPostAuthPath(profile: Profile | null): string {
   if (!profile || !profile.onboarding_completed) return "/onboarding/role";
   return dashboardPathFor(profile.role);
+}
+
+/** Wrapper class that selects the male (default blue) or female (rose / purple) colour theme. */
+export function genderClassFor(gender: Gender | null | undefined): string {
+  return gender === "female" ? "g-f" : "g-m";
 }

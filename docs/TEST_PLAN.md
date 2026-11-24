@@ -23,3 +23,15 @@ the authoring environment had no network access, so dependencies were not instal
 | 16 | Each category lands on its own dashboard; visiting another category's `/dashboard/*` redirects to own | Real OAuth | NOT RUN |
 | 17 | Edit profile (`/profile/edit`) prefilled, saves, returns to `/profile`; category cannot be changed | Real DB | NOT RUN |
 | 18 | Layout check at 360 / 390 / 430 px: no horizontal scroll, bottom nav never covers last content, hero never overlaps headings | UI | NOT RUN |
+
+## Profile photo (Phase 3a)
+| # | Scenario | Type | Status |
+|---|----------|------|--------|
+| 19 | Run `0004_profile_avatars.sql`; bucket `avatars` exists, is private, has 4 policies | Real DB | NOT RUN |
+| 20 | Profile page: tap camera, pick a JPG/PNG -> photo shows; reload -> still shows; row has `avatar_path = <uid>/avatar-<ts>.jpg` | Real DB + Storage | NOT RUN |
+| 21 | Replace photo -> new image shows immediately; old object is deleted from the bucket | Real Storage | NOT RUN |
+| 22 | Remove photo -> falls back to default artwork; `avatar_path` is null; object deleted | Real Storage | NOT RUN |
+| 23 | Non-image file / >12 MB / undecodable file shows a friendly message (EN and BM) | UI | NOT RUN |
+| 24 | RLS: user A cannot list/read/write `avatars/<B>/...`; cannot set `avatar_path` to another user's folder (check constraint) | Real DB (two users) | NOT RUN |
+| 25 | Photo from a phone camera (rotated EXIF) appears upright; transparent PNG gets a white background | UI | NOT RUN |
+| 26 | `npm run build` still succeeds | Build | NOT RUN |

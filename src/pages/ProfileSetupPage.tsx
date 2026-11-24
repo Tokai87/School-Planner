@@ -11,13 +11,15 @@ import { useAuth } from "@/hooks/useAuth";
 import { useLang } from "@/hooks/useLang";
 import { useRoleMeta } from "@/hooks/useRoleMeta";
 import { schemaFor } from "@/schemas/profileSchema";
-import { dashboardPathFor } from "@/lib/roles";
+import { dashboardPathFor, genderClassFor } from "@/lib/roles";
+import { heroFor } from "@/lib/hero";
 import { logError, toFriendlyMessage } from "@/lib/errors";
-import { PRIMARY_LEVELS, SECONDARY_LEVELS, SESSIONS, type ProfileInput, type Role, type SchoolSession } from "@/types/database";
+import { GENDERS, PRIMARY_LEVELS, SECONDARY_LEVELS, SESSIONS, type Gender, type ProfileInput, type Role, type SchoolSession } from "@/types/database";
 import type { CSSProperties } from "react";
 
 interface FormValues {
   full_name: string;
+  gender: string;
   school_name: string;
   school_level: string;
   class_name: string;
@@ -39,10 +41,10 @@ function Field({ id, label, error, hint, children }: { id: string; label: string
 function toInput(role: Role, v: FormValues): ProfileInput {
   const t = (s: string) => s.trim();
   if (role === "parent") {
-    return { role, full_name: t(v.full_name), phone_number: t(v.phone_number) || null, school_name: null, class_name: null, school_level: null, school_session: null };
+    return { role, full_name: t(v.full_name), gender: v.gender as Gender, phone_number: t(v.phone_number) || null, school_name: null, class_name: null, school_level: null, school_session: null };
   }
   return {
-    role, full_name: t(v.full_name), school_name: t(v.school_name), class_name: t(v.class_name),
+    role, full_name: t(v.full_name), gender: v.gender as Gender, school_name: t(v.school_name), class_name: t(v.class_name),
     school_level: v.school_level, school_session: v.school_session as SchoolSession, phone_number: null,
   };
 }
@@ -68,13 +70,14 @@ function ProfileForm({ role, mode }: { role: Role; mode: "create" | "edit" }) {
   );
 
   const {
-    register, handleSubmit, trigger,
+    register, handleSubmit, trigger, watch,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver,
     mode: "onTouched",
     defaultValues: {
       full_name: profile?.full_name ?? googleName, // prefill from Google; never invent school/class
+      gender: profile?.gender ?? "",
       school_name: profile?.school_name ?? "",
       school_level: profile?.school_level ?? "",
       class_name: profile?.class_name ?? "",
@@ -89,6 +92,7 @@ function ProfileForm({ role, mode }: { role: Role; mode: "create" | "edit" }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lang]);
 
+  const gender = watch("gender"); // live theme preview while choosing
   const levels = role === "primary_student" ? PRIMARY_LEVELS : SECONDARY_LEVELS;
   const isStudent = role !== "parent";
   const dest = mode === "edit" ? "/profile" : dashboardPathFor(role);
@@ -128,13 +132,19 @@ function ProfileForm({ role, mode }: { role: Role; mode: "create" | "edit" }) {
         {isStudent ? L("This helps us set up your school planner.", "Ini membantu kami menyediakan perancang sekolah anda.") : L("Set up your parent / guardian account.", "Sediakan akaun ibu bapa / penjaga anda.")}
       </p>
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="card fm">
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className={`card fm ${genderClassFor(gender === "female" ? "female" : "male")}`}>
         {submitError && <div className="f"><Alert>{submitError}</Alert></div>}
 
         <div className="f">
           <span className="lbl">{L("User category", "Kategori pengguna")}</span>
           <div className="rsel" style={{ "--s": meta.soft } as CSSProperties}>
-            <span className="cir cs"><img src={meta.img} alt="" /></span>
+            <span className="cir cs">
+              {(() => {
+                const art = gender === "female" && isStudent ? heroFor(role, "female") : null;
+                if (gender === "female" && isStudent && !art) return <b className="av-i" style={{ fontSize: 20 }} aria-hidden="true">♀</b>;
+                return <img className={art ? "face" : undefined} src={art ?? meta.img} alt="" />;
+              })()}
+            </span>
             <b>{meta.title}</b>
           </div>
         </div>
@@ -142,6 +152,20 @@ function ProfileForm({ role, mode }: { role: Role; mode: "create" | "edit" }) {
         <Field id="full_name" label={L("Full name", "Nama penuh")} error={errors.full_name?.message}>
           <input id="full_name" className="in" autoComplete="name" aria-invalid={invalid("full_name")} aria-describedby={describe("full_name")} {...register("full_name")} />
         </Field>
+
+        <fieldset className="f" style={{ border: 0, padding: 0 }}>
+          <legend className="lbl">{L("Gender", "Jantina")}</legend>
+          <div className="seg two">
+            {GENDERS.map((g) => (
+              <label key={g} style={{ margin: 0 }}>
+                <input type="radio" value={g} {...register("gender")} />
+                <span>{g === "male" ? L("Boy / Male", "Lelaki") : L("Girl / Female", "Perempuan")}</span>
+              </label>
+            ))}
+          </div>
+          <p className="mt-1.5 text-xs" style={{ color: "var(--muted)" }}>{L("This sets your app colour theme.", "Ini menentukan tema warna app anda.")}</p>
+          <div className="fe" role="alert">{errors.gender?.message}</div>
+        </fieldset>
 
         {isStudent && (
           <>

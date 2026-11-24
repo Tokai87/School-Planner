@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Bell, BookOpen, CalendarDays, ChevronRight, ClipboardCheck, ClipboardList, CreditCard, Megaphone, MessageSquare, Percent, Star, User, type LucideIcon } from "lucide-react";
-import { QuickAccess, Section, SectionTitle, Sq, StatTile, TopBar, cssVar } from "@/components/dashboard/parts";
+import { Bell, BookOpen, CalendarDays, ChevronRight, ClipboardCheck, ClipboardList, CreditCard, Megaphone, MessageSquare, Percent, Star, User, Users, type LucideIcon } from "lucide-react";
+import { QuickAccess, Section, SectionTitle, Sq, StatTile, TopBar, Hero } from "@/components/dashboard/parts";
 import { useLang } from "@/hooks/useLang";
-import couple from "@/assets/couple.webp";
+import { heroFor } from "@/lib/hero";
+import { useAuth } from "@/hooks/useAuth";
 import aiman from "@/assets/aiman.webp";
 import danish from "@/assets/danish.webp";
 
@@ -23,6 +24,7 @@ const UPCOMING: Upcoming[] = [
 type Filter = "all" | 0 | 1;
 
 export default function ParentDashboard() {
+  const { profile } = useAuth();
   const { L, level } = useLang();
   const [filter, setFilter] = useState<Filter>("all");
   const selected = filter === "all" ? KIDS : [KIDS[filter]];
@@ -42,7 +44,7 @@ export default function ParentDashboard() {
             <div className="g2">{L("Parent", "Ibu Bapa")} <span aria-hidden="true">👋</span></div>
             <p>{L("Stay informed and support your children's school journey.", "Sentiasa peka dan sokong perjalanan persekolahan anak anda.")}</p>
           </div>
-          <img className="hero" style={cssVar("--h", "200px")} src={couple} alt="" />
+          <Hero src={heroFor("parent", profile?.gender)} height="200px" icon={Users} />
         </div>
       </div>
 

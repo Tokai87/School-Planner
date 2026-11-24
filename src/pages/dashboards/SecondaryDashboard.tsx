@@ -1,8 +1,9 @@
-import { Backpack, BookOpen, Calculator, CalendarDays, ClipboardCheck, ClipboardList, FlaskConical, Globe, MessageSquare, Monitor, Star, type LucideIcon } from "lucide-react";
-import { QuickAccess, Section, SectionTitle, Sq, StatTile, TopBar, cssVar } from "@/components/dashboard/parts";
+import { Backpack, BookOpen, Calculator, CalendarDays, ClipboardCheck, ClipboardList, FlaskConical, Globe, GraduationCap, MessageSquare, Monitor, Star, type LucideIcon } from "lucide-react";
+import { QuickAccess, Section, SectionTitle, Sq, StatTile, TopBar, Hero } from "@/components/dashboard/parts";
+import FemaleDashboard from "./FemaleDashboard";
 import { useAuth } from "@/hooks/useAuth";
 import { useLang } from "@/hooks/useLang";
-import student from "@/assets/student.webp";
+import { heroFor } from "@/lib/hero";
 
 // NOTE: timetable, counts and countdown are SAMPLE data until the timetable/exam modules are built.
 interface Row { icon: LucideIcon; bg: string; c: string; en: string; ms: string; teacher: string; from: string; to: string; roomEn: string; roomMs: string; rb: string; rc: string; dot: string }
@@ -18,6 +19,7 @@ export default function SecondaryDashboard() {
   const { profile } = useAuth();
   const { lang, L } = useLang();
   if (!profile) return null;
+  if (profile.gender === "female") return <FemaleDashboard />;
   const first = profile.full_name.split(" ")[0];
   const date = new Date().toLocaleDateString(lang === "ms" ? "ms-MY" : "en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
 
@@ -31,7 +33,7 @@ export default function SecondaryDashboard() {
             <div className="g2">{first}!</div>
             <p>{L("Stay focused and make today count.", "Kekal fokus dan jadikan hari ini bermakna.")}</p>
           </div>
-          <img className="hero" style={cssVar("--h", "250px")} src={student} alt="" />
+          <Hero src={heroFor(profile.role, profile.gender)} height="250px" icon={GraduationCap} />
         </div>
         <div className="dp"><CalendarDays size={20} aria-hidden="true" /> {date}</div>
       </div>

@@ -118,7 +118,7 @@
 .nav.dk button{color:#B8C6F0}
 .nav.dk .on{color:#fff;background:#243B85}
 .dsh{--card:#fff;--ink:#172554;--muted:#5A6784;--line:#E3EAF5}
-.ob{--card:#fff;--ink:#14224E;--muted:#5A6784;--line:#DCE4F5;--soft:#E6EEFF;--ring:#3B5BDB;--errbg:#FEF2F2;--err:#B91C1C;margin:-20px -18px 0;padding:14px 18px 40px;min-height:100dvh;position:relative;overflow-x:clip;background:linear-gradient(180deg,#F4F8FF,#FBFDFF);color:#14224E}
+.ob{--card:#fff;--ink:#14224E;--muted:#5A6784;--line:#DCE4F5;--soft:#E6EEFF;--ring:#3B5BDB;--errbg:#FEF2F2;--err:#B91C1C;margin:0;padding:14px 18px 40px;min-height:100dvh;position:relative;overflow-x:clip;background:linear-gradient(180deg,#F4F8FF,#FBFDFF);color:#14224E}
 .ob:before{content:"";position:absolute;left:-70px;top:-70px;width:230px;height:170px;background:#C4D9FA;border-radius:0 0 70% 40%;opacity:.7;pointer-events:none}
 .ob>*{position:relative}
 .obt{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:22px}
@@ -165,3 +165,52 @@ fieldset legend{padding:0}
 .dsh button{font-family:inherit}
 .invisible-box{visibility:hidden}
 .lbl{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+
+/* ---------- gender themes ----------
+   .g-m (default) = the original blue look, nothing overridden.
+   .g-f = rose / purple look. Set by AppLayout on signed-in pages and on the profile form (live preview). */
+.seg.two{grid-template-columns:1fr 1fr}
+.hero-fb{display:grid;place-items:center;width:42%;max-width:none;height:auto;aspect-ratio:1;border-radius:50%;margin:0 6px 14px 0;align-self:center;background:#ffffff59;color:#1E4E8C}
+.sec .hero-fb{position:absolute;right:16px;bottom:24px;width:38%;background:#ffffff1f;color:#fff}
+.av-i{display:grid;place-items:center;width:100%;height:100%;font:700 40px Poppins;color:#C2255C}
+
+.g-f{--ring:#D6336C;--soft:#FDE8F0}
+.g-f .dsh{background:#FFF6FA}
+.g-f .dsh.pri{background:#FFF4F9}
+.g-f .dsh.sec{background:#F6EFFA}
+.g-f .dsh.par{background:#FAF6FF}
+.g-f .par .hd{background:linear-gradient(180deg,#F1E1FF,#FAF6FF)}
+.g-f .pri .hd{background:linear-gradient(180deg,#F7A8CB,#FBD2E4 70%,#FEEAF3)}
+.g-f .sec .hd{background:radial-gradient(120% 90% at 85% 0,#8B3FB8 0,#5A1F86 45%,#3A1260 100%)}
+.g-f .blob{background:#F0DDFB}
+.g-f .ib{background:#FCE4EF;color:#C2255C}
+.g-f .pri .ib{background:#ffffff99;color:#B02563}
+.g-f .sec .ib{background:#ffffff26;color:#fff}
+.g-f .pri .hero-fb{color:#B02563}
+.g-f .par .hero-fb{background:#ffffff80;color:#8B3FB8}
+.g-f .lk{color:#C2255C}
+.g-f .fl button[aria-pressed=true]{background:#D6336C;border-color:#D6336C}
+.g-f .db i{background:#FDE8F0;color:#C2255C}
+.g-f .sec .sc{box-shadow:0 10px 30px -16px rgba(58,18,96,.45);border-color:#EADCF5}
+.g-f .nav .on{color:#C2255C;background:#FDE8F0}
+.g-f .nav.dk{background:#341056}
+.g-f .nav.dk button{color:#D9C2F0}
+.g-f .nav.dk .on{color:#fff;background:#5A1F86}
+.g-f .glass{background:linear-gradient(135deg,#6B2D9E,#42176B);border-color:#8A4DBD}
+.g-f .ring span{background:#42176B}
+.g-f .cta{background:linear-gradient(180deg,#E8528A,#D6336C);box-shadow:0 12px 24px -12px #D6336C}
+.g-f .cta.ghost{background:#fff;color:#14224E;border:1.5px solid #DCE4F5;box-shadow:none}
+.g-f .cta:disabled{box-shadow:none}
+.g-f .seg input:checked+span{border-color:#D6336C;background:#FDE8F0}
+.g-f .rsel{background:#FDE8F0}
+.g-f .pav .pl{background:#FDE8F0!important;color:#C2255C!important}
+.g-f .pav .av{background:#FDE8F0!important}
+
+/* ---------- profile photo upload ---------- */
+.avw{position:relative;display:inline-block}
+.avcam{position:absolute;right:-4px;bottom:-4px;width:44px;height:44px;border-radius:50%;border:3px solid #fff;background:#2563EB;color:#fff;display:grid;place-items:center;cursor:pointer;padding:0;box-shadow:0 4px 12px -4px #0006}
+.avcam:disabled{opacity:.75;cursor:progress}
+.g-f .avcam{background:#D6336C}
+.avrm{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:4px;background:none;border:0;color:#B91C1C;font-weight:600;font-size:13px;cursor:pointer}
+.sec .avrm{color:#FCA5A5}
+.avmsg{max-width:300px;margin-top:10px;text-align:left}

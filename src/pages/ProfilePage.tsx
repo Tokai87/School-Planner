@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, LogOut, Pencil } from "lucide-react";
 import { Alert } from "@/components/ui/Alert";
 import { Spinner } from "@/components/ui/Spinner";
+import { AvatarUploader } from "@/components/ui/AvatarUploader";
 import { LangToggle } from "@/components/ui/LangToggle";
 import { Section, SectionTitle, cssVar } from "@/components/dashboard/parts";
 import { useAuth } from "@/hooks/useAuth";
@@ -10,6 +11,7 @@ import { useLang } from "@/hooks/useLang";
 import { useRoleMeta } from "@/hooks/useRoleMeta";
 import { signOut } from "@/services/authService";
 import { dashboardPathFor } from "@/lib/roles";
+import { heroFor } from "@/lib/hero";
 import { logError, toFriendlyMessage } from "@/lib/errors";
 
 function Row({ label, value }: { label: string; value: string }) {
@@ -59,7 +61,17 @@ export default function ProfilePage() {
           <span className="ib" style={{ visibility: "hidden" }} aria-hidden="true" />
         </div>
         <div className="pav">
-          <span className="av" style={cssVar("--s", meta.soft)}><img src={meta.img} alt="" /></span>
+          <AvatarUploader style={cssVar("--s", meta.soft)} fallback={<>
+            {profile.gender === "female" && profile.role !== "parent" && !heroFor(profile.role, "female") ? (
+              <b className="av-i" aria-hidden="true">{profile.full_name.trim().charAt(0).toUpperCase()}</b>
+            ) : (
+              (() => {
+                const art = profile.role === "parent" ? null : heroFor(profile.role, profile.gender);
+                const isGirlArt = profile.gender === "female" && art !== null;
+                return <img className={isGirlArt ? "face" : undefined} src={art ?? meta.img} alt="" />;
+              })()
+            )}
+          </>} />
           <h1>{profile.full_name}</h1>
           <span className="pl" style={{ background: meta.soft, color: meta.color }}>{meta.title}</span>
         </div>
@@ -74,10 +86,11 @@ export default function ProfilePage() {
       </Section>
 
       <Section>
-        <SectionTitle title={L("School Planner profile", "Profil School Planner")} />
+        <SectionTitle title={L("Rancang+ profile", "Profil Rancang+")} />
         <dl style={{ margin: 0 }}>
           <Row label={L("Full name", "Nama penuh")} value={profile.full_name} />
           <Row label={L("Category", "Kategori")} value={meta.title} />
+          <Row label={L("Gender", "Jantina")} value={profile.gender === "female" ? L("Female", "Perempuan") : profile.gender === "male" ? L("Male", "Lelaki") : "—"} />
           {isStudent ? (
             <>
               <Row label={L("School", "Sekolah")} value={profile.school_name ?? "—"} />

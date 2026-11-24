@@ -1,4 +1,4 @@
--- School Planner — Phase 2: profiles table, trigger, and Row Level Security.
+-- Rancang+ — Phase 2: profiles table, trigger, and Row Level Security.
 -- Run in Supabase Dashboard -> SQL Editor (or `supabase db push`).
 
 create table if not exists public.profiles (

@@ -1,4 +1,4 @@
-# School Planner — Phase 2 Setup Guide
+# Rancang+ — Phase 2 Setup Guide
 
 ## 1. Install & run
 ```bash
@@ -15,12 +15,13 @@ npx tsc --noEmit         # type-check only
    Never use the `service_role` key in this app.
 
 ## 3. Run the SQL migration
-Dashboard → **SQL Editor** → paste `supabase/migrations/0001_profiles.sql` → **Run**, then do the same for `0002_profiles_grants.sql`.
+Dashboard → **SQL Editor** → paste `supabase/migrations/0001_profiles.sql` → **Run**, then do the same for `0002_profiles_grants.sql`, `0003_profiles_gender.sql` and `0004_profile_avatars.sql`.
 Confirm in *Table Editor* that `profiles` exists with RLS enabled and 3 policies (select/insert/update own).
+After `0004`, *Storage* must list a **private** bucket `avatars` (1 MB limit; JPEG/PNG/WebP) with 4 policies on `storage.objects` (select/insert/update/delete own folder).
 
 ## 4. Google OAuth
 1. Google Cloud Console → create/select a project → **APIs & Services → OAuth consent screen**
-   (External, app name "School Planner", support email; scopes `email`, `profile`, `openid`).
+   (External, app name "Rancang+", support email; scopes `email`, `profile`, `openid`).
 2. **Credentials → Create credentials → OAuth client ID → Web application**.
 3. **Authorized redirect URI** — copy it from Supabase: *Authentication → Providers → Google* shows the
    **Callback URL** (`https://<project-ref>.supabase.co/auth/v1/callback`). Paste exactly that.

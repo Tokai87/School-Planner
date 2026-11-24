@@ -1,0 +1,41 @@
+/* Female student dashboard (rose = primary school, purple = secondary school). Used by FemaleDashboard + the .fnav bottom bar. */
+.fd{--fa:#EC5F95;--fa2:#FF9DBB;--fsoft:#FFE3EC;--fmut:#8A7596;--fink:#3B2147}
+.fd.sec{--fa:#8E63D6;--fa2:#B79BEA;--fsoft:#EBE0FB;--fmut:#7C6F9A;--fink:#2F2150}
+.g-f .fd{background:linear-gradient(180deg,#FFE9F1 0,#FFF6FA 280px,#FFF9FC 100%);color:var(--fink)}
+.g-f .fd.sec{background:linear-gradient(180deg,#EEE3FB 0,#F7F2FD 280px,#FBF9FE 100%)}
+.fd-top{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 0}
+.fd .lt{background:#ffffffb3}
+.fd-bell{width:44px;height:44px;border-radius:50%;border:0;display:grid;place-items:center;background:#ffffffb3;color:var(--fa);cursor:pointer}
+.fd-hello{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:6px 20px 0;min-height:176px;margin-bottom:-14px}
+.fd-hello h1{font:700 24px/1.2 Poppins;color:var(--fa);margin:18px 0 4px;overflow-wrap:anywhere}
+.fd-hello p{margin:0;font-size:15px;color:var(--fmut)}
+.fd-hello .fd-school{font-size:13px;margin-top:6px;color:var(--fink);opacity:.7}
+.fd-hero{width:152px;height:184px;object-fit:contain;object-position:right bottom;flex:none;display:block}
+.fd-fb{flex:none;width:112px;height:112px;margin-bottom:8px;border-radius:50%;display:grid;place-items:center;color:var(--fa);background:radial-gradient(circle at 30% 25%,#fff,var(--fsoft));box-shadow:0 16px 30px -16px var(--fa)}
+.fd-card{position:relative;z-index:1;background:#fff;border:1px solid var(--fsoft);border-radius:26px;margin:8px 18px 18px;padding:18px 16px 18px;box-shadow:0 16px 36px -20px var(--fa)}
+.fd-ct{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
+.fd-ct h2{font:700 18px Poppins;color:var(--fink);margin:0}
+.fd-ct small{display:block;margin-top:2px;font-size:13px;color:var(--fmut)}
+.fd-ci{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--fsoft);color:var(--fa);flex:none}
+.fd-list{list-style:none;margin:8px 0 16px;padding:0}
+.fd-row{display:flex;align-items:center;gap:12px;min-height:56px;border-bottom:1px solid var(--fsoft);color:var(--fmut)}
+.fd-row:last-child{border:0}
+.fd-time{width:44px;font:600 13.5px Inter;color:var(--fmut);flex:none}
+.fd-ico{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;flex:none}
+.fd-row b{flex:1;font:600 15px Inter;color:var(--fink);min-width:0}
+.fd-cta{display:flex;align-items:center;justify-content:center;width:100%;min-height:50px;border:0;border-radius:16px;background:linear-gradient(180deg,var(--fa2),var(--fa));color:#fff;font:600 16px Poppins;cursor:pointer;box-shadow:0 12px 22px -12px var(--fa)}
+.fd-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 18px}
+.fd-quick button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:8px;min-height:44px;font:600 12.5px Inter;color:var(--fink);cursor:pointer}
+.fd-quick span{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;box-shadow:0 10px 20px -14px #3B214766}
+
+/* bottom bar with raised "+" button */
+.nav.fnav{align-items:flex-end;padding:6px 6px 8px;border:1px solid #FFE3EC;box-shadow:0 10px 30px -12px rgba(236,95,149,.45)}
+.nav.fnav.sec{background:#fff;border-color:#EBE0FB;box-shadow:0 10px 30px -12px rgba(142,99,214,.5)}
+.nav.fnav .fab{flex:0 0 62px;min-width:62px;width:62px;height:62px;min-height:62px;margin:-26px 4px 0;border-radius:50%;color:#fff;background:linear-gradient(180deg,#FF9DBB,#EC5F95);box-shadow:0 12px 22px -8px #EC5F95;border:4px solid #fff;align-items:center;justify-content:center;flex:none}
+.nav.fnav.sec .fab{background:linear-gradient(180deg,#B79BEA,#8E63D6);box-shadow:0 12px 22px -8px #8E63D6}
+.g-f .nav.fnav .on{color:#EC5F95;background:#FFE3EC}
+.g-f .nav.fnav.sec .on{color:#8E63D6;background:#EBE0FB}
+
+/* girl character avatars: crop to the face */
+.pav img.face,.cir img.face{object-position:50% 8%;transform:scale(1.55);transform-origin:50% 14%}
+.fd-hello>div:first-child{padding-bottom:28px}

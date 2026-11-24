@@ -14,10 +14,11 @@ export function RoleCard({ role, selected, onSelect }: { role: Role; selected: b
       className="rcard"
       style={{ "--c": meta.color, "--s": meta.soft } as CSSProperties}
     >
-      <span className="cir"><img src={meta.img} alt="" /></span>
+      <span className="cir"><img src={meta.avatar} alt="" /></span>
       <span className="rt">
         <b>{meta.title}</b>
-        <small>{meta.desc}</small>
+        {meta.level && <span className="lv">{meta.level}</span>}
+        <small>{meta.tagline}</small>
       </span>
       <span className="dot" aria-hidden="true">{selected && <Check size={16} />}</span>
     </button>

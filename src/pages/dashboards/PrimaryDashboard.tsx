@@ -1,8 +1,9 @@
 import { Backpack, BookOpen, Calculator, CalendarDays, Check, ClipboardList, FileText, FlaskConical, type LucideIcon } from "lucide-react";
-import { QuickAccess, Section, SectionTitle, Sq, StatTile, TopBar, cssVar } from "@/components/dashboard/parts";
+import { QuickAccess, Section, SectionTitle, Sq, StatTile, TopBar, Hero } from "@/components/dashboard/parts";
+import FemaleDashboard from "./FemaleDashboard";
 import { useAuth } from "@/hooks/useAuth";
 import { useLang } from "@/hooks/useLang";
-import boy from "@/assets/boy.webp";
+import { heroFor } from "@/lib/hero";
 
 // NOTE: timetable, counts and bag contents are SAMPLE data until the timetable/homework modules are built.
 interface Row { icon: LucideIcon; ib: string; bg: string; en: string; ms: string; from: string; to: string; ap: "AM" | "PM"; now?: boolean }
@@ -18,6 +19,7 @@ export default function PrimaryDashboard() {
   const { profile } = useAuth();
   const { L, level, session } = useLang();
   if (!profile) return null;
+  if (profile.gender === "female") return <FemaleDashboard />;
   const first = profile.full_name.split(" ")[0];
   const ap = (v: "AM" | "PM") => (v === "AM" ? L("AM", "pagi") : L("PM", "tengah hari"));
 
@@ -34,7 +36,7 @@ export default function PrimaryDashboard() {
               {profile.school_name}<br />{level(profile.school_level)} - {profile.class_name}
             </p>
           </div>
-          <img className="hero" style={cssVar("--h", "236px")} src={boy} alt="" />
+          <Hero src={heroFor(profile.role, profile.gender)} height="236px" icon={Backpack} />
         </div>
       </div>
 
