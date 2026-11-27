@@ -13,7 +13,7 @@ import type { Child } from "@/lib/planner";
 
 export const childColor = (c: Pick<Child, "gender">) => (c.gender === "female" ? "#D6336C" : "#2F6FE4");
 
-function ChildForm({ initial, onClose }: { initial: Child | null; onClose: () => void }) {
+export function ChildForm({ initial, onClose }: { initial: Child | null; onClose: () => void }) {
   const { L, level } = useLang();
   const { add, edit, remove } = usePlanner();
   const { busy, error, run, setError } = useAction();
@@ -122,7 +122,7 @@ export default function ChildrenPage() {
           <>
             {linked.kids.length > 0 && <h2 className="pl-h2">{L("Added by hand", "Ditambah secara manual")}</h2>}
             {data.children.map((c) => (
-              <button key={c.id} type="button" className="pl-row" onClick={() => setEditing(c)}>
+              <button key={c.id} type="button" className="pl-row" onClick={() => navigate(`/children/${c.id}`)}>
                 <span className="pl-av" style={{ background: childColor(c) }}>{c.full_name.trim().charAt(0).toUpperCase()}</span>
                 <span className="pl-tx"><b>{c.full_name}</b><small>{[c.school_level && level(c.school_level), c.class_name, c.school_name].filter(Boolean).join(" · ") || L("No school details yet", "Belum ada butiran sekolah")}</small></span>
                 <ChevronRight size={18} aria-hidden="true" className="pl-cv" />

@@ -34,6 +34,8 @@ the authoring environment had no network access, so dependencies were not instal
 | P4 | All new screens at 390px, EN + BM, male/female/parent: no horizontal overflow | Mock backend (browser) | PASS |
 | P5 | Run `0006_parent_links.sql`; code create/redeem/reuse/expired, parent-only/student-only, other parent blocked, direct table read blocked | Real DB (rolled-back SQL test) | PASS |
 | P6 | Student creates code in Settings; parent links under Children; linked child page, dashboard card and alerts show data; unlink works | Mock backend (browser) | PASS; two real accounts NOT RUN |
+| P7 | Run `0007_child_planner.sql`; child rows scoped by child_id, foreign child blocked by RLS, deleting a child cascades its planner | Real DB (rolled-back SQL test) | PASS |
+| P8 | Parent opens a hand-added child: add/edit/delete subjects, classes, homework, exams; dashboard + alerts show them | Mock backend (browser) | PASS; real login NOT RUN |
 | 20 | Profile page: tap camera, pick a JPG/PNG -> photo shows; reload -> still shows; row has `avatar_path = <uid>/avatar-<ts>.jpg` | Real DB + Storage | NOT RUN |
 | 21 | Replace photo -> new image shows immediately; old object is deleted from the bucket | Real Storage | NOT RUN |
 | 22 | Remove photo -> falls back to default artwork; `avatar_path` is null; object deleted | Real Storage | NOT RUN |

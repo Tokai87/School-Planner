@@ -5,7 +5,7 @@ import { useLang } from "@/hooks/useLang";
 import { usePlanner } from "@/hooks/usePlanner";
 import { addDays, daysUntil, fmtDate, fromKey, hhmm, relativeDay, todayKey, type Exam } from "@/lib/planner";
 
-function ExamForm({ initial, onClose }: { initial: Exam | null; onClose: () => void }) {
+export function ExamForm({ initial, onClose }: { initial: Exam | null; onClose: () => void }) {
   const { L } = useLang();
   const { data, add, edit, remove } = usePlanner();
   const { busy, error, run, setError } = useAction();

@@ -6,7 +6,7 @@ import { useLang } from "@/hooks/useLang";
 import { usePlanner } from "@/hooks/usePlanner";
 import { hhmm, isoWeekday, nowMinutes, subjectIcon, tint, toMinutes, WEEKDAYS, type Entry } from "@/lib/planner";
 
-function EntryForm({ initial, day, onClose }: { initial: Entry | null; day: number; onClose: () => void }) {
+export function EntryForm({ initial, day, onClose }: { initial: Entry | null; day: number; onClose: () => void }) {
   const { L, lang } = useLang();
   const { data, add, addMany, edit, remove } = usePlanner();
   const { busy, error, run, setError } = useAction();

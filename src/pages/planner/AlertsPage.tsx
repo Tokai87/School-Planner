@@ -6,7 +6,7 @@ import { useLang } from "@/hooks/useLang";
 import { usePlanner } from "@/hooks/usePlanner";
 import { useLinkedChildren } from "@/hooks/useLinkedChildren";
 import { asPlanner } from "@/services/linkService";
-import { daysUntil, EVENT_KINDS, fmtDate, relativeDay, tint, type PlannerData } from "@/lib/planner";
+import { scopeToChild, daysUntil, EVENT_KINDS, fmtDate, relativeDay, tint, type PlannerData } from "@/lib/planner";
 import type { LucideIcon } from "lucide-react";
 
 interface Alert { key: string; icon: LucideIcon; color: string; title: string; sub: string; to: string; days: number }
@@ -43,7 +43,9 @@ export default function AlertsPage() {
   const own = buildAlerts(data, !parent, L, (k) => fmtDate(k, lang));
   const theirs = linked.kids.flatMap(({ info, snap }) =>
     buildAlerts(asPlanner(snap), true, L, (k) => fmtDate(k, lang)).map((a) => ({ ...a, key: `${info.child_id}${a.key}`, title: `${info.full_name.split(" ")[0]}: ${a.title}`, to: `/children/linked/${info.child_id}` })));
-  const items = [...own, ...theirs].sort((a, b) => a.days - b.days);
+  const mine = parent ? data.children.flatMap((c) =>
+    buildAlerts(scopeToChild(data, c.id), true, L, (k) => fmtDate(k, lang)).map((a) => ({ ...a, key: `${c.id}${a.key}`, title: `${c.full_name.split(" ")[0]}: ${a.title}`, to: `/children/${c.id}` }))) : [];
+  const items = [...own, ...mine, ...theirs].sort((a, b) => a.days - b.days);
   return (
     <PageShell>
       <PageHeader title={L("Alerts", "Notifikasi")} sub={items.length ? L(`${items.length} need your attention`, `${items.length} perlukan perhatian`) : undefined} />

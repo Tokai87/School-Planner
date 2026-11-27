@@ -58,7 +58,13 @@ export function PlannerProvider({ children }: { children: ReactNode }) {
         next.exams = d.exams.map((x) => (x.subject_id === id ? { ...x, subject_id: null } : x));
         next.notes = d.notes.map((n) => (n.subject_id === id ? { ...n, subject_id: null } : n));
       }
-      if (table === "children") next.events = d.events.map((e) => (e.child_id === id ? { ...e, child_id: null } : e));
+      if (table === "children") {
+        next.events = d.events.map((e) => (e.child_id === id ? { ...e, child_id: null } : e));
+        next.subjects = d.subjects.filter((x) => x.child_id !== id);
+        next.timetable_entries = d.timetable_entries.filter((x) => x.child_id !== id);
+        next.tasks = d.tasks.filter((x) => x.child_id !== id);
+        next.exams = d.exams.filter((x) => x.child_id !== id);
+      }
       return next;
     });
   }, []);

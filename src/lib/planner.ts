@@ -2,10 +2,10 @@ import { BookOpen, Calculator, Atom, FlaskConical, Globe, Landmark, Languages, M
 import type { Role } from "@/types/database";
 import type { Lang } from "@/lib/lang";
 
-export interface Subject { id: string; name: string; teacher: string | null; color: string; created_at: string }
-export interface Entry { id: string; subject_id: string; weekday: number; start_time: string; end_time: string; room: string | null }
-export interface Task { id: string; subject_id: string | null; title: string; details: string | null; due_date: string; done: boolean }
-export interface Exam { id: string; subject_id: string | null; title: string; exam_date: string; start_time: string | null; venue: string | null }
+export interface Subject { child_id?: string | null; id: string; name: string; teacher: string | null; color: string; created_at: string }
+export interface Entry { child_id?: string | null; id: string; subject_id: string; weekday: number; start_time: string; end_time: string; room: string | null }
+export interface Task { child_id?: string | null; id: string; subject_id: string | null; title: string; details: string | null; due_date: string; done: boolean }
+export interface Exam { child_id?: string | null; id: string; subject_id: string | null; title: string; exam_date: string; start_time: string | null; venue: string | null }
 export interface Note { id: string; subject_id: string | null; title: string; body: string | null; updated_at: string }
 export type EventKind = "holiday" | "event" | "meeting" | "other";
 export interface PEvent { id: string; child_id: string | null; title: string; event_date: string; kind: EventKind; details: string | null }
@@ -89,3 +89,15 @@ export const EVENT_KINDS: Array<{ id: EventKind; en: string; ms: string; color: 
   { id: "meeting", en: "Meeting", ms: "Mesyuarat", color: "#8B5CF6" },
   { id: "other", en: "Other", ms: "Lain-lain", color: "#F59E0B" },
 ];
+
+/** The planner rows (subjects, timetable, homework, exams) that belong to one child record. */
+export function scopeToChild(d: PlannerData, childId: string): PlannerData {
+  return {
+    ...EMPTY_DATA,
+    subjects: d.subjects.filter((x) => x.child_id === childId),
+    timetable_entries: d.timetable_entries.filter((x) => x.child_id === childId),
+    tasks: d.tasks.filter((x) => x.child_id === childId),
+    exams: d.exams.filter((x) => x.child_id === childId),
+  };
+}
+export const isPrimaryLevel = (lv: string | null | undefined) => !!lv && /^Year/i.test(lv);

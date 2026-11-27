@@ -10,7 +10,7 @@ import { usePlanner } from "@/hooks/usePlanner";
 import { useLinkedChildren } from "@/hooks/useLinkedChildren";
 import { asPlanner } from "@/services/linkService";
 import { pendingTasks, upcomingExams } from "@/lib/today";
-import { daysUntil, EVENT_KINDS, fmtDate, fromKey, relativeDay, tint, todayKey } from "@/lib/planner";
+import { scopeToChild, daysUntil, EVENT_KINDS, fmtDate, fromKey, relativeDay, tint, todayKey } from "@/lib/planner";
 
 const KIND_ICON: Record<string, LucideIcon> = { holiday: Umbrella, event: GraduationCap, meeting: BookOpen, other: Bell };
 
@@ -86,16 +86,19 @@ export default function ParentDashboard() {
             )}
             {(selected ? [selected] : kids).map((k) => {
               const c = childColor(k);
+              const sd = scopeToChild(data, k.id);
+              const todo = pendingTasks(sd).length;
+              const ex = upcomingExams(sd).length;
               const evs = data.events.filter((e) => e.child_id === k.id && e.event_date >= today).length;
               return (
-                <button key={k.id} type="button" className="kc kc-btn" style={{ background: tint(c, 0.1) }} onClick={() => navigate("/children")}>
+                <button key={k.id} type="button" className="kc kc-btn" style={{ background: tint(c, 0.1) }} onClick={() => navigate(`/children/${k.id}`)}>
                   <div className="kt">
                     <span className="kav kav-i" style={{ background: c }}>{k.full_name.trim().charAt(0).toUpperCase()}</span>
                     <div className="tn">
                       <b>{k.full_name}</b>
                       <div className="ks">{[k.school_level && level(k.school_level), k.class_name && `${L("Class", "Kelas")} ${k.class_name}`].filter(Boolean).join(" • ") || L("No class details", "Tiada butiran kelas")}</div>
                       {k.school_name && <div className="ks">{k.school_name}</div>}
-                      <span className="pill" style={{ background: tint(c, 0.18), color: c }}>{L(`${evs} upcoming`, `${evs} akan datang`)}</span>
+                      <span className="pill" style={{ background: tint(c, 0.18), color: c }}>{todo + ex > 0 ? L(`${todo} homework • ${ex} exams`, `${todo} kerja • ${ex} exam`) : L(`${evs} upcoming`, `${evs} akan datang`)}</span>
                     </div>
                     <ChevronRight size={20} aria-hidden="true" />
                   </div>

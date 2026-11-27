@@ -6,7 +6,7 @@ import { useLang } from "@/hooks/useLang";
 import { usePlanner } from "@/hooks/usePlanner";
 import { COLORS, starterSubjects, subjectIcon, tint, type Subject } from "@/lib/planner";
 
-function SubjectForm({ initial, onClose }: { initial: Subject | null; onClose: () => void }) {
+export function SubjectForm({ initial, onClose }: { initial: Subject | null; onClose: () => void }) {
   const { L } = useLang();
   const { add, edit, remove, data } = usePlanner();
   const { busy, error, run, setError } = useAction();

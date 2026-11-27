@@ -6,7 +6,7 @@ import { useLang } from "@/hooks/useLang";
 import { usePlanner } from "@/hooks/usePlanner";
 import { addDays, daysUntil, fmtDate, relativeDay, todayKey, type Task } from "@/lib/planner";
 
-function TaskForm({ initial, onClose }: { initial: Task | null; onClose: () => void }) {
+export function TaskForm({ initial, onClose }: { initial: Task | null; onClose: () => void }) {
   const { L } = useLang();
   const { data, add, edit, remove } = usePlanner();
   const { busy, error, run, setError } = useAction();

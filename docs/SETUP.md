@@ -15,11 +15,13 @@ npx tsc --noEmit         # type-check only
    Never use the `service_role` key in this app.
 
 ## 3. Run the SQL migration
-Dashboard → **SQL Editor** → paste `supabase/migrations/0001_profiles.sql` → **Run**, then do the same for `0002_profiles_grants.sql`, `0003_profiles_gender.sql`, `0004_profile_avatars.sql`, `0005_planner.sql` and `0006_parent_links.sql`.
+Dashboard → **SQL Editor** → paste `supabase/migrations/0001_profiles.sql` → **Run**, then do the same for `0002_profiles_grants.sql`, `0003_profiles_gender.sql`, `0004_profile_avatars.sql`, `0005_planner.sql`, `0006_parent_links.sql` and `0007_child_planner.sql`.
 Confirm in *Table Editor* that `profiles` exists with RLS enabled and 3 policies (select/insert/update own).
 `0005` creates the planner tables (`children`, `subjects`, `timetable_entries`, `tasks`, `exams`, `notes`, `events`), each with RLS (`user_id = auth.uid()`) and grants for `authenticated`.
 
 `0006` adds `parent_links` and `link_invites` plus five security-definer functions (`create_link_code`, `redeem_link_code`, `linked_children`, `linked_parents`, `child_snapshot`). A parent never gets table access to a student's data; the functions return read-only snapshots (no notes, no personal events).
+
+`0007` adds `child_id` to `subjects`, `timetable_entries`, `tasks` and `exams` so a parent can keep a full planner for a child added by hand (rows cascade when the child is deleted; RLS also checks the child belongs to the same user).
 
 After `0004`, *Storage* must list a **private** bucket `avatars` (1 MB limit; JPEG/PNG/WebP) with 4 policies on `storage.objects` (select/insert/update/delete own folder).
 
