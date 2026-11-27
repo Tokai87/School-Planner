@@ -13,7 +13,7 @@ All Phase 2 screens now follow the approved HTML mockup (v3):
 - Malay / English switch (EN | BM) on every screen. The choice is saved in `localStorage` (`sp.lang`). Strings are written inline as `L("English", "Bahasa Melayu")` via `useLang()`.
 
 ### Sample data
-Dashboard content (timetable, counts, children, events, countdown) is **sample data** in the dashboard files. Real data arrives with the timetable / homework / exams / calendar and parent-child management phases. Bottom-nav tabs other than Home and Profile are placeholders (marked "Coming soon").
+All screens are live and backed by Supabase (migration `0005_planner.sql`): Timetable, Subjects, Homework, Exams, Notes, Calendar, Alerts and Settings for students; Children, Calendar, Alerts and Settings for parents. Dashboards read the same data. A parent can either add a child by hand (and fill in that child's subjects, timetable, homework and exams, migration `0007_child_planner.sql`) or link a student's own account: the student creates a one-time code (Settings → Share with a parent), the parent enters it under Children. Linked parents get a read-only view of timetable, homework and exams (migration `0006_parent_links.sql`).
 
 ### Styling note
 Screen styles live in `src/styles/screens.css` (ported from the mockup). They are un-layered CSS, so they win over Tailwind utilities on the same property; use inline `style` or edit the class when overriding.
