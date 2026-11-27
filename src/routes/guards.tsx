@@ -57,9 +57,10 @@ export function RequireCompleteProfile() {
 }
 
 /** A dashboard is only visible to its own category; others are sent to theirs. */
-export function RoleGate({ role, children }: { role: Role; children: ReactNode }) {
+export function RoleGate({ role, children }: { role: Role | "student"; children: ReactNode }) {
   const { profile } = useAuth();
   if (!profile) return null;
-  if (profile.role !== role) return <Navigate to={dashboardPathFor(profile.role)} replace />;
+  const allowed = role === "student" ? profile.role !== "parent" : profile.role === role;
+  if (!allowed) return <Navigate to={dashboardPathFor(profile.role)} replace />;
   return <>{children}</>;
 }

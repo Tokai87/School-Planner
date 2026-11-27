@@ -15,8 +15,10 @@ npx tsc --noEmit         # type-check only
    Never use the `service_role` key in this app.
 
 ## 3. Run the SQL migration
-Dashboard → **SQL Editor** → paste `supabase/migrations/0001_profiles.sql` → **Run**, then do the same for `0002_profiles_grants.sql`, `0003_profiles_gender.sql` and `0004_profile_avatars.sql`.
+Dashboard → **SQL Editor** → paste `supabase/migrations/0001_profiles.sql` → **Run**, then do the same for `0002_profiles_grants.sql`, `0003_profiles_gender.sql`, `0004_profile_avatars.sql` and `0005_planner.sql`.
 Confirm in *Table Editor* that `profiles` exists with RLS enabled and 3 policies (select/insert/update own).
+`0005` creates the planner tables (`children`, `subjects`, `timetable_entries`, `tasks`, `exams`, `notes`, `events`), each with RLS (`user_id = auth.uid()`) and grants for `authenticated`.
+
 After `0004`, *Storage* must list a **private** bucket `avatars` (1 MB limit; JPEG/PNG/WebP) with 4 policies on `storage.objects` (select/insert/update/delete own folder).
 
 ## 4. Google OAuth

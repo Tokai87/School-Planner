@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { PlannerProvider } from "@/components/planner/PlannerProvider";
 import { BottomNav } from "@/components/dashboard/BottomNav";
 import { useAuth } from "@/hooks/useAuth";
 import { genderClassFor } from "@/lib/roles";
@@ -8,8 +9,10 @@ export default function AppLayout() {
   const { profile } = useAuth();
   return (
     <div className={`mx-auto min-h-dvh max-w-md ${genderClassFor(profile?.gender)}`} style={{ background: "#F5F7FF", padding: "20px 18px 0", overflowX: "clip" }}>
-      <Outlet />
-      <BottomNav />
+      <PlannerProvider>
+        <Outlet />
+        <BottomNav />
+      </PlannerProvider>
     </div>
   );
 }

@@ -73,7 +73,7 @@ export default function ProfilePage() {
             )}
           </>} />
           <h1>{profile.full_name}</h1>
-          <span className="pl" style={{ background: meta.soft, color: meta.color }}>{meta.title}</span>
+          <span className="pill" style={{ background: meta.soft, color: meta.color }}>{meta.title}</span>
         </div>
       </div>
 

@@ -11,6 +11,15 @@ import ProfilePage from "@/pages/ProfilePage";
 import PrimaryDashboard from "@/pages/dashboards/PrimaryDashboard";
 import SecondaryDashboard from "@/pages/dashboards/SecondaryDashboard";
 import ParentDashboard from "@/pages/dashboards/ParentDashboard";
+import SubjectsPage from "@/pages/planner/SubjectsPage";
+import TimetablePage from "@/pages/planner/TimetablePage";
+import TasksPage from "@/pages/planner/TasksPage";
+import ExamsPage from "@/pages/planner/ExamsPage";
+import NotesPage from "@/pages/planner/NotesPage";
+import CalendarPage from "@/pages/planner/CalendarPage";
+import AlertsPage from "@/pages/planner/AlertsPage";
+import ChildrenPage from "@/pages/planner/ChildrenPage";
+import SettingsPage from "@/pages/planner/SettingsPage";
 import { PublicOnly, RequireAuth, RequireCompleteProfile, RequireIncompleteProfile, RoleGate } from "@/routes/guards";
 
 export function AppRoutes() {
@@ -40,6 +49,15 @@ export function AppRoutes() {
             <Route path="/dashboard/secondary" element={<RoleGate role="secondary_student"><SecondaryDashboard /></RoleGate>} />
             <Route path="/dashboard/parent" element={<RoleGate role="parent"><ParentDashboard /></RoleGate>} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/timetable" element={<RoleGate role="student"><TimetablePage /></RoleGate>} />
+            <Route path="/subjects" element={<RoleGate role="student"><SubjectsPage /></RoleGate>} />
+            <Route path="/tasks" element={<RoleGate role="student"><TasksPage /></RoleGate>} />
+            <Route path="/exams" element={<RoleGate role="student"><ExamsPage /></RoleGate>} />
+            <Route path="/notes" element={<RoleGate role="student"><NotesPage /></RoleGate>} />
+            <Route path="/children" element={<RoleGate role="parent"><ChildrenPage /></RoleGate>} />
+            <Route path="/calendar" element={<CalendarPage />} />
+            <Route path="/alerts" element={<AlertsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Route>
           <Route element={<EditProfileLayout />}>
             <Route path="/profile/edit" element={<ProfileSetupPage mode="edit" />} />

@@ -28,6 +28,10 @@ the authoring environment had no network access, so dependencies were not instal
 | # | Scenario | Type | Status |
 |---|----------|------|--------|
 | 19 | Run `0004_profile_avatars.sql`; bucket `avatars` exists, is private, has 4 policies | Real DB | NOT RUN |
+| P1 | Run `0005_planner.sql`; 7 tables exist with RLS enabled and a `<table>_own` policy each | Real DB | PASS (applied + RLS verified via SQL) |
+| P2 | Student: add subjects, a class, homework, exam, note; toggle homework done; edit and delete each | Mock backend (browser) | PASS (add/edit sheet verified); real login NOT RUN |
+| P3 | Parent: add child and events; calendar and dashboard show them; student-only routes redirect | Mock backend (browser) | PARTIAL; real login NOT RUN |
+| P4 | All new screens at 390px, EN + BM, male/female/parent: no horizontal overflow | Mock backend (browser) | PASS |
 | 20 | Profile page: tap camera, pick a JPG/PNG -> photo shows; reload -> still shows; row has `avatar_path = <uid>/avatar-<ts>.jpg` | Real DB + Storage | NOT RUN |
 | 21 | Replace photo -> new image shows immediately; old object is deleted from the bucket | Real Storage | NOT RUN |
 | 22 | Remove photo -> falls back to default artwork; `avatar_path` is null; object deleted | Real Storage | NOT RUN |
