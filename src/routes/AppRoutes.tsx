@@ -19,6 +19,7 @@ import NotesPage from "@/pages/planner/NotesPage";
 import CalendarPage from "@/pages/planner/CalendarPage";
 import AlertsPage from "@/pages/planner/AlertsPage";
 import ChildrenPage from "@/pages/planner/ChildrenPage";
+import LinkedChildPage from "@/pages/planner/LinkedChildPage";
 import SettingsPage from "@/pages/planner/SettingsPage";
 import { PublicOnly, RequireAuth, RequireCompleteProfile, RequireIncompleteProfile, RoleGate } from "@/routes/guards";
 
@@ -55,6 +56,7 @@ export function AppRoutes() {
             <Route path="/exams" element={<RoleGate role="student"><ExamsPage /></RoleGate>} />
             <Route path="/notes" element={<RoleGate role="student"><NotesPage /></RoleGate>} />
             <Route path="/children" element={<RoleGate role="parent"><ChildrenPage /></RoleGate>} />
+            <Route path="/children/linked/:id" element={<RoleGate role="parent"><LinkedChildPage /></RoleGate>} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/alerts" element={<AlertsPage />} />
             <Route path="/settings" element={<SettingsPage />} />

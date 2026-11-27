@@ -24,12 +24,12 @@ export function PageShell({ children }: { children: ReactNode }) {
   return <div className={`pl ${accent}`}>{children}</div>;
 }
 
-export function PageHeader({ title, sub, onAdd, addLabel }: { title: string; sub?: string; onAdd?: () => void; addLabel?: string }) {
+export function PageHeader({ title, sub, onAdd, addLabel, back }: { title: string; sub?: string; onAdd?: () => void; addLabel?: string; back?: string }) {
   const { profile } = useAuth();
   const { L } = useLang();
   return (
     <header className="pl-hd">
-      <Link to={profile ? dashboardPathFor(profile.role) : "/"} className="bk" aria-label={L("Back to home", "Kembali ke utama")}>
+      <Link to={back ?? (profile ? dashboardPathFor(profile.role) : "/")} className="bk" aria-label={L("Back to home", "Kembali ke utama")}>
         <ChevronLeft size={22} aria-hidden="true" />
       </Link>
       <div style={{ flex: 1, minWidth: 0 }}>

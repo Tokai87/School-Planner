@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CalendarDays, ChevronRight, CircleUser, Languages, Library, LogOut, Pencil, ShieldCheck, StickyNote, type LucideIcon } from "lucide-react";
 import { PageHeader, PageShell } from "@/components/planner/ui";
+import ParentLinkCard from "@/components/planner/ParentLinkCard";
 import { LangToggle } from "@/components/ui/LangToggle";
 import { Alert } from "@/components/ui/Alert";
 import { Spinner } from "@/components/ui/Spinner";
@@ -55,6 +56,13 @@ export default function SettingsPage() {
       <h2 className="pl-h2">{L("Account", "Akaun")}</h2>
       <LinkRow to="/profile" icon={CircleUser} label={L("My profile", "Profil saya")} />
       <LinkRow to="/profile/edit" icon={Pencil} label={L("Edit profile", "Ubah profil")} />
+
+      {student && (
+        <>
+          <h2 className="pl-h2">{L("Share with a parent", "Kongsi dengan ibu bapa")}</h2>
+          <ParentLinkCard />
+        </>
+      )}
 
       <h2 className="pl-h2">{L("Shortcuts", "Pintasan")}</h2>
       {student && <LinkRow to="/subjects" icon={Library} label={L("Subjects", "Subjek")} />}

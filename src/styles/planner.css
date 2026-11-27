@@ -118,3 +118,19 @@
 .kc-empty small{font-size:12.5px;color:#64748B}
 .li-btn{background:none;border:0;border-bottom:1px solid #EEF1F8}
 .li-empty{display:block;border:0;background:#F1F5F9;border-radius:14px;padding:16px 12px;text-align:center;font-size:14px;font-weight:600;color:#334155}
+
+/* ---------- parent link ---------- */
+.pl-seg3{grid-template-columns:repeat(3,1fr)}
+.pl-seg3 button{font-size:13px;padding:0 4px}
+.pl-ro{margin:0 0 12px;padding:8px 12px;border-radius:12px;background:var(--as);color:var(--a);font:500 12.5px/1.4 Inter,sans-serif}
+.pl-code{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:12px;padding:16px 10px;border-radius:16px;background:var(--as)}
+.pl-code>span{font:700 26px/1 Poppins,sans-serif;letter-spacing:.08em;color:var(--ink);user-select:all}
+.pl-code small{color:var(--muted);font:500 12px Inter,sans-serif;text-align:center}
+.pl-h3{margin:16px 0 6px;font:600 13px Inter,sans-serif;color:var(--muted)}
+.pl-lp{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.pl-lp span{display:flex;flex-direction:column;min-width:0}
+.pl-lp small{color:var(--muted);font-size:12px}
+.pl-lp .pl-btn{min-height:40px;padding:0 14px;font-size:13.5px;flex:none}
+.pl-ok{margin:0 0 14px;padding:12px;border-radius:12px;background:#E3F7EA;color:#166534;font:600 14px Inter,sans-serif;text-align:center}
+.pl-codein{text-align:center;letter-spacing:.1em;font-weight:700}
+.kc-linked{margin-bottom:10px}

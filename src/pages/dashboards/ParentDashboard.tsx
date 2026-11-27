@@ -7,6 +7,9 @@ import { useLang } from "@/hooks/useLang";
 import { heroFor } from "@/lib/hero";
 import { useAuth } from "@/hooks/useAuth";
 import { usePlanner } from "@/hooks/usePlanner";
+import { useLinkedChildren } from "@/hooks/useLinkedChildren";
+import { asPlanner } from "@/services/linkService";
+import { pendingTasks, upcomingExams } from "@/lib/today";
 import { daysUntil, EVENT_KINDS, fmtDate, fromKey, relativeDay, tint, todayKey } from "@/lib/planner";
 
 const KIND_ICON: Record<string, LucideIcon> = { holiday: Umbrella, event: GraduationCap, meeting: BookOpen, other: Bell };
@@ -16,6 +19,7 @@ export default function ParentDashboard() {
   const { L, lang, level } = useLang();
   const { data } = usePlanner();
   const navigate = useNavigate();
+  const linked = useLinkedChildren();
   const [filter, setFilter] = useState<string>("all");
   const kids = data.children;
   const selected = kids.find((k) => k.id === filter);
@@ -44,14 +48,33 @@ export default function ParentDashboard() {
       </div>
 
       <Section className="up">
-        <SectionTitle title={L("My Children", "Anak-anak Saya")} action={kids.length ? L("View All", "Lihat Semua") : undefined} to="/children" />
-        {kids.length === 0 ? (
+        <SectionTitle title={L("My Children", "Anak-anak Saya")} action={kids.length + linked.kids.length ? L("View All", "Lihat Semua") : undefined} to="/children" />
+        {linked.kids.map(({ info, snap }) => {
+          const c = childColor(info);
+          const pd = asPlanner(snap);
+          const todo = pendingTasks(pd).length;
+          const ex = upcomingExams(pd).length;
+          return (
+            <button key={info.link_id} type="button" className="kc kc-btn kc-linked" style={{ background: tint(c, 0.1) }} onClick={() => navigate(`/children/linked/${info.child_id}`)}>
+              <div className="kt">
+                <span className="kav kav-i" style={{ background: c }}>{info.full_name.trim().charAt(0).toUpperCase()}</span>
+                <div className="tn">
+                  <b>{info.full_name}</b>
+                  <div className="ks">{[info.school_level && level(info.school_level), info.class_name && `${L("Class", "Kelas")} ${info.class_name}`].filter(Boolean).join(" • ") || L("Linked account", "Akaun berpaut")}</div>
+                  <span className="pill" style={{ background: tint(c, 0.18), color: c }}>{L(`${todo} homework • ${ex} exams`, `${todo} kerja • ${ex} exam`)}</span>
+                </div>
+                <ChevronRight size={20} aria-hidden="true" />
+              </div>
+            </button>
+          );
+        })}
+        {kids.length === 0 && linked.kids.length === 0 ? (
           <button type="button" className="kc kc-empty" onClick={() => navigate("/children?new=1")}>
             <UserPlus size={26} aria-hidden="true" />
             <b>{L("Add your first child", "Tambah anak pertama anda")}</b>
             <small>{L("Keep their school details and events in one place.", "Simpan butiran sekolah dan acara mereka di satu tempat.")}</small>
           </button>
-        ) : (
+        ) : kids.length === 0 ? null : (
           <>
             {kids.length > 1 && (
               <div className="fl" role="group" aria-label={L("Filter by child", "Tapis mengikut anak")}>
@@ -86,7 +109,7 @@ export default function ParentDashboard() {
       <Section>
         <SectionTitle title={L("Overview", "Ringkasan")} />
         <div className="sg">
-          <StatTile icon={Users} bg="#EAF2FF" ib="#2F6FE4" num={kids.length} label={L("Children", "Anak")} sub={L("Added", "Didaftarkan")} />
+          <StatTile icon={Users} bg="#EAF2FF" ib="#2F6FE4" num={kids.length + linked.kids.length} label={L("Children", "Anak")} sub={L("Added", "Didaftarkan")} />
           <StatTile icon={CalendarDays} bg="#E8F8EF" ib="#22A35A" num={upcoming.length} label={L("Upcoming Events", "Acara Akan Datang")} sub={selected ? selected.full_name.split(" ")[0] : L("All children", "Semua anak")} />
           <StatTile icon={ClipboardCheck} bg="#F0EBFF" ib="#7C5CE0" num={nextWeek} label={L("This Week", "Minggu Ini")} sub={L("Next 7 days", "7 hari akan datang")} />
           <StatTile icon={Umbrella} bg="#FFF6E0" ib="#E8A400" num={holidays} label={L("Holidays", "Cuti")} sub={L("Coming up", "Akan datang")} />

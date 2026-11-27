@@ -4,6 +4,8 @@ import { Empty, LoadGate, PageHeader, PageShell } from "@/components/planner/ui"
 import { useAuth } from "@/hooks/useAuth";
 import { useLang } from "@/hooks/useLang";
 import { usePlanner } from "@/hooks/usePlanner";
+import { useLinkedChildren } from "@/hooks/useLinkedChildren";
+import { asPlanner } from "@/services/linkService";
 import { daysUntil, EVENT_KINDS, fmtDate, relativeDay, tint, type PlannerData } from "@/lib/planner";
 import type { LucideIcon } from "lucide-react";
 
@@ -36,7 +38,12 @@ export default function AlertsPage() {
   const { profile } = useAuth();
   const { data } = usePlanner();
   const navigate = useNavigate();
-  const items = buildAlerts(data, profile?.role !== "parent", L, (k) => fmtDate(k, lang));
+  const parent = profile?.role === "parent";
+  const linked = useLinkedChildren(parent);
+  const own = buildAlerts(data, !parent, L, (k) => fmtDate(k, lang));
+  const theirs = linked.kids.flatMap(({ info, snap }) =>
+    buildAlerts(asPlanner(snap), true, L, (k) => fmtDate(k, lang)).map((a) => ({ ...a, key: `${info.child_id}${a.key}`, title: `${info.full_name.split(" ")[0]}: ${a.title}`, to: `/children/linked/${info.child_id}` })));
+  const items = [...own, ...theirs].sort((a, b) => a.days - b.days);
   return (
     <PageShell>
       <PageHeader title={L("Alerts", "Notifikasi")} sub={items.length ? L(`${items.length} need your attention`, `${items.length} perlukan perhatian`) : undefined} />
